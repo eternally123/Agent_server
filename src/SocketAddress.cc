@@ -3,7 +3,6 @@
 #include <string.h>
 #include <sys/socket.h>
 
-// #include "BaseHeader.hpp"
 #include "SocketAddress.hpp"
 
 const size_t IPV4LEN = 15;
@@ -54,14 +53,6 @@ sockaddr_in SocketAddress::getAddr(void)
     addr.sin_addr.s_addr = inet_addr(m_ip.c_str());
     addr.sin_port = htons(m_port);
     return addr;
-}
-
-bool SocketAddress::getAddr(sockaddr_in& addr)
-{
-    memset(&addr, 0, sizeof(addr));
-    addr.sin_family = AF_INET;
-    addr.sin_port = htons(m_port);
-    return inet_pton(AF_INET, m_ip.c_str(), &addr.sin_addr) == 1 ? true : false;
 }
 
 string&

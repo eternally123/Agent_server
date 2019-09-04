@@ -7,23 +7,17 @@
 using namespace std;
 
 class SocketAddress {
-    /*
-        getAddr
-        operator=
-
-        ip 地址
-     */
 private:
     string m_ip;
     unsigned short m_port;
     string m_str;
 
 public:
-    SocketAddress();
-    SocketAddress(const char* ip, unsigned short port);
+    SocketAddress(); //for local
+    SocketAddress(const char* ip, unsigned short port); //for remote
     ~SocketAddress();
 
-    void setPort(unsigned short);
+    void setPort(unsigned short); //for server bind
     void setAddress(const char* ip, unsigned short port);
     const char* getIP(void) const
     {
@@ -34,10 +28,9 @@ public:
         return m_port;
     };
     sockaddr_in getAddr(void);
-    bool getAddr(sockaddr_in& addr);
 
     string& convertToString(void);
-    bool ifAnyAddr(void) const;
+    bool ifAnyAddr(void) const; //for ip
 
     bool operator==(const SocketAddress&) const;
     SocketAddress& operator=(const SocketAddress&);
