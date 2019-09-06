@@ -13,6 +13,8 @@ int Epoll::initialize(int eventSize){
 }
 
 void Epoll::addEvent(int fd,struct epoll_event* event){
-    epoll_ctl(m_epollFd,)
+    epoll_event ev;
+    
+    epoll_ctl(m_epollFd,EPOLL_CTL_ADD,fd,);
 }
 
