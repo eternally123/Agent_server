@@ -8,6 +8,7 @@ class SocketAddress;
 class TCPSocket {
 private:
     int m_sockFd;
+    bool m_listenFd;
 
 public:
     TCPSocket();

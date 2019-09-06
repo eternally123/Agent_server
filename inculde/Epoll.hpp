@@ -1,9 +1,10 @@
 #ifndef _EPOLL_HPP_
 #define _EPOLL_HPP_
-
 #include <sys/epoll.h>
 
-class Epoll{
+#include "TCPAgent.hpp"
+
+class Epoll {
 private:
     int m_epollFd;
     int m_eventSize;
@@ -17,13 +18,7 @@ public:
     void run();
 
 protected:
-    void addEvent(int fd,struct epoll_event* event);
-    void modEvent(int fd,struct epoll_event* event);
-    void deleteEvent(int fd,struct epoll_event* event);
+    int doAgent(int fd, unsigned int events, int op, Agent* agent);
 };
 
 #endif
-
-
-
-
