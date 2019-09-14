@@ -12,9 +12,9 @@
 
 #include <iostream>
 
+#include "Error.hpp"
 #include "SocketAddress.hpp"
 #include "TCPSocket.hpp"
-#include "error.hpp"
 
 TCPSocket::TCPSocket()
     : m_sockFd(-1)

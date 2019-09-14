@@ -7,8 +7,6 @@
 
 const SocketAddress InitAddr("0", 0);
 
-struct InReq;
-
 class TCPAgent : public Agent {
 public:
     TCPAgent();
@@ -38,5 +36,6 @@ public:
 
 protected:
     TCPSocket m_socket;
+    SocketAddress m_oppositeAddr;
 };
 #endif

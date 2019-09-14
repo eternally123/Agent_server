@@ -3,7 +3,7 @@
 
 #include <stdint.h>
 
-#include "error.hpp"
+#include "Error.hpp"
 
 struct BaseRequest;
 struct InReq;

@@ -1,6 +1,4 @@
-
-
-#include "BaseRequest.hpp"
+#include "MsgHeader.hpp"
 
 MsgHeader::MsgHeader()
     : m_cmd(0)
@@ -12,13 +10,5 @@ MsgHeader::MsgHeader()
 }
 
 MsgHeader::~MsgHeader()
-{
-}
-
-BaseRequset::BaseRequset()
-{
-}
-
-BaseRequset::~BaseRequset()
 {
 }

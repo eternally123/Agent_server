@@ -3,7 +3,7 @@
 #include <string.h>
 
 #include "Epoll.hpp"
-#include "error.hpp"
+#include "Error.hpp"
 
 #define EPOLL_TIMEOUT_LEN 5
 

@@ -1,16 +1,16 @@
-#ifndef _BASEREQUEST_HPP_
-#define _BASEREQUEST_HPP_
+#ifndef _BASERESPONSE_HPP_
+#define _BASERESPONSE_HPP_
 
 #include "MsgHeader.hpp"
 
-class BaseRequset {
+class BaseResponse {
 public:
     MsgHeader m_msgHeader;
     char* m_msgBody;
     sockaddr_in m_oppositeAddr;
 
-    BaseRequset();
-    ~BaseRequset();
+    BaseResponse();
+    ~BaseResponse();
 };
 
 #endif
