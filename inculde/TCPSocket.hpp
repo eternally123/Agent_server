@@ -1,15 +1,11 @@
-#ifndef _TCPSOCKET_HPP_
-#define _TCPSOCKET_HPP_
+#ifndef TCPSOCKET_HPP_
+#define TCPSOCKET_HPP_
 
 #include <sys/types.h>
 
 class SocketAddress;
 
 class TCPSocket {
-private:
-    int m_sockFd;
-    bool m_listenFd;
-
 public:
     TCPSocket();
     TCPSocket(int fd);
@@ -29,10 +25,9 @@ public:
     int writev(const struct iovec*, size_t);
 
     int setNonblock(void);
-    int enableReuseaddr(void);
-    int disableLinger(void);
-    int disableNagle(void);
-    int setKeepAlive(void);
+
+private:
+    int m_iSockFd;
 };
 
 #endif
