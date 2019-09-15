@@ -17,51 +17,46 @@
 #include "TCPSocket.hpp"
 
 TCPSocket::TCPSocket()
-    : m_iSockFd(-1)
-{
-}
+    : m_iSockFd(-1){ 
+ }
 
 TCPSocket::TCPSocket(int fd)
-    : m_iSockFd(fd)
-{
+    : m_iSockFd(fd){
 }
 
-TCPSocket::~TCPSocket()
-{
+TCPSocket::~TCPSocket(){
 }
 
-int TCPSocket::generateSocket(void)
-{
-    m_iSockFd= socket(PF_INET, SOCK_STREAM, 0);
-    if (m_iSockFd< 0) {
-        std::cout << "TCPSocket::TCPSocket::socket" << std::endl;
+int TCPSocket::generateSocket(void){
+    m_iSockFd = socket(PF_INET, SOCK_STREAM, 0);
+    if (m_iSockFd < 0) {
+        ERRORLOG;        
     }
-
     return m_iSockFd;
 }
 
-int TCPSocket::bind(const SocketAddress& servaddr)
+int TCPSocket::bind(const SocketAddress& serverAddr)
 {
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = PF_INET;
 
-    if (servaddr.ifAnyAddr()) {
+    if (serverAddr.ifAnyAddr()) {
         addr.sin_addr.s_addr = htonl(INADDR_ANY);
     } else {
-        if ((inet_aton(servaddr.getIP(), (in_addr*)&addr.sin_addr.s_addr)) == 0) {
+        if ((inet_aton(serverAddr.getIp(),(in_addr*)&addr.sin_addr.s_addr)) == 0) {
             std::cout << "TCPSocket::bind::inet_addr: IP Address Invalid "
                       << std::endl;
             return FAILED;
         }
     }
 
-    if (servaddr.getPort() == 0) {
+    if (serverAddr.getPort() == 0) {
         std::cout << "TCPSocket::bind: Port Invalid" << std::endl;
         return FAILED;
     }
 
-    addr.sin_port = htons(servaddr.getPort());
+    addr.sin_port = htons(serverAddr.getPort());
     if (::bind(m_iSockFd, (const struct sockaddr*)&addr, sizeof(addr)) < 0) {
         std::cout << "TCPSocket::bind : bind error, Port is" << servaddr.getPort()
                   << "." << std::endl;

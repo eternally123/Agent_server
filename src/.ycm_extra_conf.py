@@ -83,7 +83,7 @@ flags = [
 '-isystem',
 '/usr/local/include',
 '-isystem',
-'../inculde',
+'../include',
 ]
 
 
