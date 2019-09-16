@@ -7,11 +7,8 @@
 
 class MsgHeader {
 public:
-    uint32_t m_cmd;
-    uint32_t m_msgBodyLength;
-    uint32_t m_error;
-    uint32_t m_para1;
-    uint32_t m_para2;
+    uint32_t m_u32MsgBodyLength;
+    uint32_t m_u32OppoId;
 
     MsgHeader();
     ~MsgHeader();

@@ -1,11 +1,8 @@
 #include "MsgHeader.hpp"
 
 MsgHeader::MsgHeader()
-    : m_cmd(0)
-    , m_msgBodyLength(0)
-    , m_error(0)
-    , m_para1(0)
-    , m_para2(0)
+    :m_u32MsgBodyLength(0)
+     ,m_u32OppoId(0)
 {
 }
 

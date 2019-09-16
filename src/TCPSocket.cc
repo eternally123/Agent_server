@@ -76,22 +76,22 @@ int TCPSocket::listen(int len)
     return SUCCESSFUL;
 }
 
-int TCPSocket::connect(const SocketAddress& ipaddr)
+int TCPSocket::connect(const SocketAddress& serverAddr)
 {
     int ret = -1;
     struct sockaddr_in addr;
     memset(&addr, 0, sizeof(addr));
     addr.sin_family = PF_INET;
-    if (ipaddr.ifAnyAddr()) {
+    if (serverAddr.ifAnyAddr()) {
         std::cout << "TCPSocket::connect:ipaddr.ip NULL" << std::endl;
         return FAILED;
     } else {
-        if ((addr.sin_addr.s_addr = inet_addr(ipaddr.getIP())) == INADDR_NONE) {
+        if ((addr.sin_addr.s_addr = inet_addr(serverAddr.getIP())) == INADDR_NONE) {
             std::cout << "TCPSocket::connect::inet_addr: IP Address Invalid" << std::endl;
             return FAILED;
         }
     }
-    if (ipaddr.getPort() == 0) {
+    if (serverAddr.getPort() == 0) {
         std::cout << "TCPSocket::connect:ipaddr.Port Invalid" << std::endl;
         return FAILED;
     }
@@ -101,13 +101,13 @@ int TCPSocket::connect(const SocketAddress& ipaddr)
     return ret;
 }
 
-int TCPSocket::accept(SocketAddress& addr)
+int TCPSocket::accept(SocketAddress& clientAddr)
 {
     struct sockaddr_in cliAddr;
     unsigned int cliAddrLen = sizeof(cliAddr);
     memset(&cliAddr, 0, cliAddrLen);
     int fd = ::accept(m_iSockFd, (struct sockaddr*)&cliAddr, &cliAddrLen);
-    addr.setAddress(inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port));
+    clientAddr.setAddress(inet_ntoa(cliAddr.sin_addr), ntohs(cliAddr.sin_port));
     return fd;
 }
 
@@ -136,46 +136,42 @@ int TCPSocket::read(char* buf, size_t len)
     return readNum;
 }
 
-int TCPSocket::readn(char* vptr, unsigned int n)
+int TCPSocket::readn(char* buf, unsigned int n)
 {
-    unsigned int nleft;
-    int nread;
+    unsigned int nLeft;
+    int nRead;
     char* ptr;
 
-    if (!vptr) {
+    if (buf == NULL) {
         return FAILED;
     }
-    ptr = vptr;
-    nleft = n;
+    ptr = buf;
+    nLeft= n;
 
-    while (nleft > 0) {
-        if ((nread = ::read(m_iSockFd, ptr, nleft)) < 0) {
+    while (nLeft> 0) {
+        if ((nRead = ::read(m_iSockFd, ptr, nLeft)) < 0) {
             if (errno == EINTR) {
-                nread = 0;
-            } else if (errno != EWOULDBLOCK) {
+                nRead= 0;
+            }else if (errno == EWOULDBLOCK){
+                nRead = 0;
+            }else{
                 std::cout << "readn():" << std::endl;
                 return FAILED;
             }
-        } else if (nread == 0) {
+        } else if (nRead== 0) {
             break;
         } else {
-            nleft -= (unsigned int)nread;
-            ptr += nread;
+            nLeft-= (unsigned int)nRead;
+            ptr += nRead;
         }
     }
 
-    return (int)(n - nleft);
+    return (int)(n - nLeft);
 }
 
 int TCPSocket::write(const char* buf, size_t len)
 {
     int writeNum = ::write(m_iSockFd, buf, len);
-    return writeNum;
-}
-
-int TCPSocket::writev(const struct iovec* v, size_t c)
-{
-    int writeNum = ::writev(m_iSockFd, v, c);
     return writeNum;
 }
 
